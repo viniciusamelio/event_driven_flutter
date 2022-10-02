@@ -1,6 +1,8 @@
 import 'package:barcode/barcode.dart';
 import 'package:bottom_bar/bottom_bar.dart';
-import 'package:event_driven_flutter/snack.dart';
+import 'package:event_driven_flutter/di.dart';
+import 'package:event_driven_flutter/events.dart';
+import 'package:event_driven_flutter/payment_method_clipboard_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,6 +14,8 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  EventBus get eventBus => DI.get<EventBus>();
+
   late final PageController pageController;
   int currentPage = 0;
 
@@ -61,9 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             paymentTitle: "Pix",
             buttonTitle: "Copiar código Pix",
             buttonCallback: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                PaymentClipboardSnack.show("código pix"),
-              );
+              eventBus.addEvent(PixClipboardEvent(code: "0001"));
             },
             display: const _QrCode(),
           ),
@@ -71,9 +73,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             paymentTitle: "Boleto",
             buttonTitle: "Copiar código de barras",
             buttonCallback: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                PaymentClipboardSnack.show("código de barras"),
-              );
+              eventBus.addEvent(BilletClipboardEvent(code: "0002"));
             },
             display: const _BarcodeWidget(),
           ),

@@ -1,5 +1,6 @@
 import 'package:barcode/barcode.dart';
 import 'package:bottom_bar/bottom_bar.dart';
+import 'package:event_driven_flutter/snack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -59,13 +60,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _PaymentMethod(
             paymentTitle: "Pix",
             buttonTitle: "Copiar código Pix",
-            buttonCallback: () {},
+            buttonCallback: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                PaymentClipboardSnack.show("código pix"),
+              );
+            },
             display: const _QrCode(),
           ),
           _PaymentMethod(
             paymentTitle: "Boleto",
             buttonTitle: "Copiar código de barras",
-            buttonCallback: () {},
+            buttonCallback: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                PaymentClipboardSnack.show("código de barras"),
+              );
+            },
             display: const _BarcodeWidget(),
           ),
         ],
